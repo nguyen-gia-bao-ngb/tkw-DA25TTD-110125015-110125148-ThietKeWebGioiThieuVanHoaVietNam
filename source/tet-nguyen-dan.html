@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tết Nguyên Đán — Lễ Hội Việt</title>
+<meta name="description" content="Nguồn gốc, ý nghĩa và phong tục truyền thống của Tết Nguyên Đán — ngày Tết cổ truyền của người Việt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  :root {
+    /* Bảng màu Tết nâng cấp */
+    --tet-red: #D32F2F;        /* Đỏ cờ, tươi tắn */
+    --tet-red-dark: #8B0000;   /* Đỏ sẫm, sang trọng */
+    --tet-gold: #FFD700;       /* Vàng kim loại */
+    --tet-gold-light: #FFFACD; /* Vàng nhạt */
+    --tet-paper: #FCF8F0;      /* Màu giấy bản, vàng ngà */
+    --tet-ink: #2B1810;        /* Màu mực nho, nâu đen sẫm */
+    --tet-green: #2E7D32;      /* Màu lá dong, bánh chưng */
+    --tet-pink: #FF80AB;       /* Màu hoa đào */
+    
+    /* Font chữ */
+    --font-display: 'Pattaya', sans-serif; /* Font nghệ thuật cho tiêu đề */
+    --font-body: 'Roboto', sans-serif;
+    --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--tet-paper);
+    color: var(--tet-ink);
+    overflow-x: hidden;
+  }
+
+  /* Định nghĩa lại theme để ăn khớp với CSS hiện có của bạn */
+  body[data-theme="tet"] { background: var(--tet-paper); color: var(--tet-ink); }
+  
+  /* ---------- NAVIGATION ---------- */
+  .site-nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 20px clamp(20px, 6vw, 90px);
+    transition: all 0.3s ease;
+  }
+  .site-nav.scrolled {
+    background: rgba(252, 248, 240, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(181, 35, 43, 0.1);
+    padding: 10px clamp(20px, 6vw, 90px);
+  }
+  .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 30px; align-items: center; }
+  .site-nav a { text-decoration: none; color: var(--tet-ink); font-weight: 500; }
+  .site-nav .brand {
+    font-family: var(--font-display); font-size: 1.8rem; color: var(--tet-red) !important;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .site-nav .brand .dot { width: 10px; height: 10px; background: var(--tet-gold); border-radius: 50%; }
+  .site-nav a.nav-link.active { color: var(--tet-red); font-weight: 700; }
+
+  /* ---------- HERO ---------- */
+  .tet-hero {
+    position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 150px clamp(20px, 6vw, 90px) 90px;
+    /* Background Image thay vì Gradient đơn giản */
+    background-image: linear-gradient(to bottom, rgba(139, 0, 0, 0.85), rgba(211, 47, 47, 0.7)),
+                      url('https://images.unsplash.com/photo-1596117926210-9c1a5d09f7a7?q=80&w=2000');
+    background-size: cover; background-position: center; background-attachment: fixed;
+    color: var(--tet-paper);
+  }
+  
+  /* Hoa rơi */
+  .petal {
+    position: absolute; top: -40px; width: 14px; height: 14px; border-radius: 60% 0 60% 0;
+    opacity: 0.85; animation: petal-fall linear infinite; pointer-events: none; z-index: 1;
+  }
+  @keyframes petal-fall {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translate(var(--drift, 40px), 112vh) rotate(360deg); }
+  }
+
+  .eyebrow { font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--tet-gold); font-weight: 700; margin-bottom: 10px; display: block;}
+  .tet-hero h1 {
+    font-family: var(--font-display); font-size: clamp(3.5rem, 10vw, 7rem);
+    line-height: 1; margin: 10px 0 25px; color: var(--tet-paper);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+  .tet-hero h1 em { font-style: normal; color: var(--tet-gold); }
+  .tet-hero p.lede { font-size: clamp(1.1rem, 1.8vw, 1.3rem); max-width: 600px; opacity: 0.95; line-height: 1.8; position: relative; z-index: 2; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);}
+
+  .countdown-label { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(252, 248, 240, 0.8); margin-top: 50px; margin-bottom: 15px; position: relative; z-index: 2;}
+  .countdown { display: flex; gap: 15px; position: relative; z-index: 2; flex-wrap: wrap; }
+  .countdown .cbox {
+    background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px); border-radius: 12px;
+    padding: 15px 20px; min-width: 90px; text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .countdown .cbox strong { display: block; font-size: 2.5rem; color: var(--tet-gold); font-weight: 700; line-height: 1;}
+  .countdown .cbox span { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--tet-paper); opacity: 0.9; }
+  .countdown .cd-msg { font-family: var(--font-display); font-size: 2rem; color: var(--tet-gold); }
+
+  /* ---------- SECTION COMMON ---------- */
+  .tet-section { padding: 120px clamp(20px, 6vw, 90px); position: relative;}
+  .tet-section .eyebrow { color: var(--tet-red); }
+  .tet-section h2 { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.5rem); margin: 10px 0 30px; color: var(--tet-ink); line-height: 1.1;}
+  .tet-section p.lede { max-width: 700px; opacity: 0.9; line-height: 1.9; font-size: 1.1rem; margin-bottom: 50px;}
+
+  /* ---------- NGUỒN GỐC ---------- */
+  .origin-grid { display: flex; gap: 60px; flex-wrap: wrap; align-items: center; }
+  .origin-text { flex: 1 1 450px; }
+  .origin-stat {
+    flex: 0 1 350px; background: var(--tet-red-dark); color: var(--tet-paper);
+    border-radius: 20px; padding: 40px;
+    background-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="%23FFD700" fill-opacity="0.05" fill-rule="evenodd"><path d="M0 0h20L10 10zm10 10L20 20H0z"/></g></svg>');
+    box-shadow: 0 15px 35px rgba(139, 0, 0, 0.2);
+  }
+  .origin-stat strong { font-family: var(--font-display); font-size: 3rem; display: block; color: var(--tet-gold); line-height: 1;}
+  .origin-stat span { font-size: 1rem; opacity: 0.95; line-height: 1.6; display: block; margin-top: 15px; }
+
+  /* ---------- CUSTOM CARDS (PHONG TỤC) ---------- */
+  .custom-card {
+    background: #fff; border: 1px solid rgba(181, 35, 43, 0.08);
+    border-radius: 20px; overflow: hidden; height: 100%;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    display: flex; flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+  }
+  .custom-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(181, 35, 43, 0.12); }
+  
+  .card-img-top {
+    height: 200px; width: 100%; object-fit: cover;
+  }
+  
+  .custom-card .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column;}
+  .custom-card h4 { font-size: 1.3rem; margin-bottom: 10px; color: var(--tet-red-dark); font-weight: 700;}
+  .custom-card p { font-size: 0.95rem; opacity: 0.85; line-height: 1.7; margin: 0; }
+
+  /* ---------- 3 MIỀN ---------- */
+  .region-col {
+    border-radius: 20px; padding: 40px 30px; height: 100%; color: var(--tet-paper);
+    display: flex; flex-direction: column; gap: 15px;
+    background-size: cover; background-position: center;
+    position: relative; overflow: hidden;
+  }
+  .region-col::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+    z-index: 1;
+  }
+  .region-col * { position: relative; z-index: 2; }
+
+  .region-col h4 { font-family: var(--font-display); font-size: 1.8rem; color: var(--tet-gold); }
+  .region-col .tag { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tet-paper); opacity: 0.9; font-weight: 700;}
+  .region-col p { font-size: 1rem; line-height: 1.8; opacity: 0.95; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);}
+  
+  /* Thêm ảnh nền cho 3 miền */
+  .region-bac { background-image: url('https://images.unsplash.com/photo-1611718873822-79331826f592?q=80&w=800'); }
+  .region-trung { background-image: url('https://images.unsplash.com/photo-1599708149187-578f2ff4a68f?q=80&w=800'); }
+  .region-nam { background-image: url('https://images.unsplash.com/photo-1583216834458-45a909477b94?q=80&w=800'); }
+
+  /* ---------- FOOD GRID ---------- */
+  .food-item { text-align: center; padding: 10px; height: 100%; display: flex; flex-direction: column; align-items: center;}
+  .food-img-wrapper {
+    width: 100px; height: 100px; border-radius: 50%; overflow: hidden;
+    margin-bottom: 15px; border: 4px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  .food-item img { width: 100%; height: 100%; object-fit: cover; }
+  .food-item h5 { font-size: 1rem; margin-bottom: 5px; color: var(--tet-red-dark); font-weight: 700;}
+  .food-item p { font-size: 0.85rem; opacity: 0.8; margin: 0; }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer {
+    background: var(--tet-red-dark); color: var(--tet-paper);
+    padding: 80px clamp(20px, 6vw, 90px) 40px;
+    background-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="%23FFD700" fill-opacity="0.03" fill-rule="evenodd"><path d="M0 0h20L10 10zm10 10L20 20H0z"/></g></svg>');
+  }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px;}
+  .site-footer h5 { font-family: var(--font-display); font-size: 1.5rem; color: var(--tet-gold); margin-bottom: 20px;}
+  .site-footer ul { list-style: none; padding: 0; margin: 0; }
+  .site-footer ul li { margin-bottom: 10px; }
+  .site-footer a { color: var(--tet-paper); text-decoration: none; opacity: 0.8; transition: opacity 0.3s; }
+  .site-footer a:hover { opacity: 1; color: var(--tet-gold); }
+  
+  .site-footer .bottom {
+    border-top: 1px solid rgba(252, 248, 240, 0.1);
+    padding-top: 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px;
+    font-size: 0.9rem; opacity: 0.7;
+  }
+
+  /* Skip Link */
+  .skip-link {
+    position: absolute; top: -100px; left: 0; background: var(--tet-gold); color: var(--tet-ink);
+    padding: 10px 20px; z-index: 2000; transition: top 0.3s;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* Animations (Bootstrap classes replacement) */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+</style>
+</head>
+<body data-theme="tet">
+<a class="skip-link" href="#main">Bỏ qua, đến nội dung chính</a>
+
+<nav class="site-nav" id="site-nav">
+  <a class="brand" href="index.html"><span class="dot"></span>Lễ Hội Việt</a>
+  <ul>
+    <li><a class="nav-link" href="index.html">Trang chủ</a></li>
+    <li><a class="nav-link active" href="tet-nguyen-dan.html">Tết Nguyên Đán</a></li>
+    <li><a class="nav-link" href="le-hoi-vua-hung.html">Giỗ Tổ Hùng Vương</a></li>
+    <li><a class="nav-link" href="tet-trung-thu.html">Tết Trung Thu</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="tet-hero" id="tet-hero">
+    <div class="reveal">
+        <span class="eyebrow">Mùng 1 tháng Giêng âm lịch</span>
+        <h1>Tết<br><em>Nguyên Đán</em></h1>
+        <p class="lede">Tết cổ truyền của người Việt — thời khắc tiễn năm cũ, đón năm mới, khi cả nhà quây quần, ông bà lì xì cho con trẻ và những lời chúc tốt lành được gửi đi khắp bốn phương.</p>
+
+        <p class="countdown-label">Đếm ngược đến Tết Đinh Mùi 2027</p>
+        <div class="countdown" id="tet-countdown">
+          <div class="cbox"><strong data-d>00</strong><span>Ngày</span></div>
+          <div class="cbox"><strong data-h>00</strong><span>Giờ</span></div>
+          <div class="cbox"><strong data-m>00</strong><span>Phút</span></div>
+          <div class="cbox"><strong data-s>00</strong><span>Giây</span></div>
+        </div>
+    </div>
+  </section>
+
+  <!-- NGUỒN GỐC -->
+  <section class="tet-section">
+    <div class="container-fluid p-0">
+        <span class="eyebrow reveal">Nguồn gốc & Ý nghĩa</span>
+        <h2 class="reveal reveal-delay-1">Tết — điểm khởi đầu của một vòng năm mới</h2>
+        
+        <div class="origin-grid">
+          <div class="origin-text reveal reveal-delay-2">
+            <p style="line-height:1.9; font-size:1.1rem; opacity:.9; margin-bottom: 20px;">Tết Nguyên Đán bắt nguồn từ nền văn minh nông nghiệp lúa nước, gắn với vòng quay của lịch âm — thời điểm kết thúc một mùa vụ và mở ra một năm canh tác mới. "Nguyên" có nghĩa là khởi đầu, "Đán" là buổi sáng sớm; Tết Nguyên Đán vì vậy mang ý nghĩa của một buổi sáng đầu tiên, trong sạch và tràn đầy hy vọng.</p>
+            <p style="line-height:1.9; font-size:1.1rem; opacity:.9;">Đây cũng là dịp để con cháu dù đi làm xa, học tập nơi đâu cũng tìm cách trở về nhà, sum họp bên gia đình, thắp hương tưởng nhớ tổ tiên và cùng nhau đón giao thừa — khoảnh khắc chuyển giao giữa năm cũ và năm mới.</p>
+          </div>
+          <div class="origin-stat reveal reveal-delay-3">
+            <strong>Giao thừa</strong>
+            <span>Khoảnh khắc thiêng liêng nhất trong năm — tiễn năm cũ, đón năm mới, cả nhà cùng chờ đợi dưới ánh hương trầm.</span>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- PHONG TỤC -->
+  <section class="tet-section" style="background:#fff; border-radius: 40px 40px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.02);">
+    <div class="container-fluid p-0">
+        <span class="eyebrow reveal">Phong tục ngày Tết</span>
+        <h2 class="reveal reveal-delay-1">Những việc không thể thiếu mỗi dịp Tết về</h2>
+        
+        <div class="row g-4 mt-3">
+
+          <!-- Card 1 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="custom-card reveal">
+              <!-- Thay SVG bằng ảnh thực tế -->
+              <img src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2020/1/16/778916/Mam-Co-Cung-Ong-Cong.jpg" class="card-img-top" alt="Cúng ông Công ông Táo">
+              <div class="card-body">
+                <h4>Cúng ông Công, ông Táo</h4>
+                <p>Ngày 23 tháng Chạp, các gia đình làm lễ tiễn Táo Quân về trời báo cáo việc bếp núc trong năm.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="custom-card reveal reveal-delay-1">
+              <img src="https://eggyolk.vn/wp-content/uploads/2025/01/Cach-lam-banh-tet-bang-la-chuoi.jpg" class="card-img-top" alt="Gói bánh chưng">
+              <div class="card-body">
+                <h4>Gói bánh chưng, bánh tét</h4>
+                <p>Cả nhà quây quần gói bánh từ gạo nếp, đậu xanh, thịt heo — món ăn không thể thiếu trên bàn thờ gia tiên.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="custom-card reveal reveal-delay-2">
+              <img src="https://mia.vn/media/uploads/blog-du-lich/cho-hoa-tet-sai-gon-01-1698464514.jpg" class="card-img-top" alt="Chợ hoa Tết">
+              <div class="card-body">
+                <h4>Đi chợ hoa Tết</h4>
+                <p>Chợ hoa rộn ràng những ngày cuối năm — nơi chọn mua cành đào, chậu mai, quất vàng trang trí nhà cửa.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="custom-card reveal">
+              <img src="https://suckhoedoisong.qltns.mediacdn.vn/zoom/600_315/324455921873985536/2024/2/2/xong-dat-dau-nam-2024-1706845076357124809207.jpg" class="card-img-top" alt="Xông đất đầu năm">
+              <div class="card-body">
+                <h4>Xông đất đầu năm</h4>
+                <p>Người đầu tiên bước vào nhà sau giao thừa được tin là sẽ mang may mắn hoặc vận hạn cho cả năm.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="custom-card reveal reveal-delay-1">
+              <img src="https://thuphapongdo.com/wp-content/uploads/2024/11/bao-li-xi-29-1.jpg" class="card-img-top" alt="Lì xì mừng tuổi">
+              <div class="card-body">
+                <h4>Lì xì mừng tuổi</h4>
+                <p>Phong bao đỏ trao đi không nặng ở giá trị, mà ở lời chúc sức khỏe, bình an gửi đến người nhận.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="custom-card reveal reveal-delay-2">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuk-lrFCohQiF0y8lkrGy9BIGwNEvd5SFo-w&s" class="card-img-top" alt="Du xuân lễ chùa">
+              <div class="card-body">
+                <h4>Du xuân, lễ chùa</h4>
+                <p>Những ngày đầu năm, nhiều người đi lễ chùa cầu một năm an lành, vạn sự hanh thông.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+  </section>
+
+  <!-- 3 MIỀN -->
+  <section class="tet-section">
+    <div class="container-fluid p-0">
+        <span class="eyebrow reveal">Sắc màu vùng miền</span>
+        <h2 class="reveal reveal-delay-1">Một cái Tết, ba sắc thái</h2>
+        
+        <div class="row g-4 mt-2">
+          <div class="col-12 col-lg-4">
+            <div class="region-col region-bac reveal">
+              <span class="tag">Miền Bắc</span>
+              <h4>Hoa đào & bánh chưng vuông</h4>
+              <p>Sắc hồng của hoa đào trên nền trời lạnh, bánh chưng vuông gói lá dong, dưa hành chua giòn ăn kèm thịt mỡ.</p>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="region-col region-trung reveal reveal-delay-1">
+              <span class="tag">Miền Trung</span>
+              <h4>Mâm cỗ nhiều mứt, bánh tét thập cẩm</h4>
+              <p>Khí hậu khắc nghiệt hun đúc sự tỉ mỉ — mâm cỗ Tết miền Trung nổi tiếng với nhiều loại mứt, bánh tét nhân thịt cầu kỳ.</p>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="region-col region-nam reveal reveal-delay-2">
+              <span class="tag">Miền Nam</span>
+              <h4>Hoa mai vàng & bánh tét lá cẩm</h4>
+              <p>Mai vàng rực nắng phương Nam, bánh tét đòn dài, thịt kho hột vịt nước dừa và dưa giá ăn giải ngấy ngày Tết.</p>
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- ẨM THỰC -->
+  <section class="tet-section" style="background:#fff; border-radius: 40px 40px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.02);">
+    <div class="container-fluid p-0">
+        <span class="eyebrow reveal">Ẩm thực ngày Tết</span>
+        <h2 class="reveal reveal-delay-1">Mâm cỗ không thể thiếu</h2>
+        
+        <div class="row g-4 mt-2 text-center justify-content-center">
+          
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="food-item reveal">
+              <div class="food-img-wrapper">
+                <img src="https://cdn-media.sforum.vn/storage/app/media/thaouyen/banh-chung-hay-banh-trung-thumb.jpg" alt="Bánh chưng">
+              </div>
+              <h5>Bánh chưng</h5><p>Gạo nếp, đậu xanh</p>
+            </div>
+          </div>
+          
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="food-item reveal reveal-delay-1">
+              <div class="food-img-wrapper">
+                <img src="https://cdn.tgdd.vn/Files/2022/02/05/1414110/tong-hop-cach-lam-mon-banh-tet-khong-the-thieu-vao-ngay-tet-co-truyen-202202060000130793.jpg" alt="Bánh tét">
+              </div>
+              <h5>Bánh tét</h5><p>Đòn dài, miền Nam</p>
+            </div>
+          </div>
+          
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="food-item reveal reveal-delay-2">
+              <div class="food-img-wrapper">
+                <img src="https://img.thuonghieusanpham.vn/img/TAPCHI_THSP/news_dataimages/2025/012025/22/07/in_article/hanh20250122074215.jpg?rt=20250122074222" alt="Dưa hành">
+              </div>
+              <h5>Dưa hành</h5><p>Chua giòn, ăn kèm</p>
+            </div>
+          </div>
+          
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="food-item reveal">
+              <div class="food-img-wrapper">
+                <img src="https://cdn.tgdd.vn/Files/2017/03/28/965845/cach-lam-thit-kho-trung-5_760x450.jpg" alt="Thịt kho hột vịt">
+              </div>
+              <h5>Thịt kho</h5><p>Nước dừa, đậm đà</p>
+            </div>
+          </div>
+          
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="food-item reveal reveal-delay-1">
+              <div class="food-img-wrapper">
+                <img src="https://phache.com.vn/upload/image/mutdua.jpg" alt="Mứt Tết">
+              </div>
+              <h5>Mứt Tết</h5><p>Gừng, dừa, sen</p>
+            </div>
+          </div>
+          
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="food-item reveal reveal-delay-2">
+              <div class="food-img-wrapper">
+                <img src="https://cdn.pastaxi-manager.onepas.vn/content/uploads/articles/thumkt/pasgo/cach-lam-cha-lua-tai-nha-ngon.jpg" alt="Giò lụa">
+              </div>
+              <h5>Giò lụa</h5><p>Khoanh tròn, lá chuối</p>
+            </div>
+          </div>
+          
+        </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h5>Lễ Hội Việt</h5>
+      <p style="max-width:320px; opacity:.8; font-size:.95rem; line-height:1.7; margin-bottom: 0;">Trang thông tin giới thiệu các lễ hội truyền thống Việt Nam, thực hiện cho mục đích học tập.</p>
+    </div>
+    <div style="display: flex; gap: 40px;">
+        <div>
+          <h5>Lễ hội</h5>
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="le-hoi-vua-hung.html">Giỗ Tổ</a></li>
+            <li><a href="tet-trung-thu.html">Tết Trung Thu</a></li>
+          </ul>
+        </div>
+    </div>
+  </div>
+  <div class="bottom">
+    <span>© 2026 Lễ Hội Việt — Thiết kế Web</span>
+    <span>Thiết kế với Bootstrap 5 & Tình yêu Tết</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Hiệu ứng Nav bar khi cuộn
+  window.addEventListener('scroll', function() {
+    const nav = document.getElementById('site-nav');
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // Hiệu ứng Hoa rơi trong hero
+  (function(){
+    const hero = document.getElementById('tet-hero');
+    // Bổ sung màu hồng hoa đào và vàng hoa mai
+    const colors = ['var(--tet-gold)', 'var(--tet-pink)', '#FFFACD', '#FFD1DC'];
+    for(let i=0; i<20; i++){
+      const p = document.createElement('span');
+      p.className = 'petal';
+      p.style.left = Math.random()*100 + '%';
+      p.style.background = colors[i % colors.length];
+      p.style.setProperty('--drift', (Math.random()*150 - 75) + 'px');
+      p.style.animationDuration = (6 + Math.random()*7) + 's';
+      p.style.animationDelay = (Math.random()*5) + 's';
+      const size = (8 + Math.random()*10) + 'px';
+      p.style.width = p.style.height = size;
+      hero.appendChild(p);
+    }
+  })();
+
+  // Đếm ngược đến Tết Đinh Mùi 2027 (06/02/2027)
+  (function(){
+    const target = new Date('2027-02-06T00:00:00+07:00').getTime();
+    const box = document.getElementById('tet-countdown');
+    function tick(){
+      const diff = target - Date.now();
+      if(diff <= 0){
+        box.innerHTML = '<span class="cd-msg">Chúc mừng năm mới! 🎉</span>';
+        return;
+      }
+      const d = Math.floor(diff/86400000);
+      const h = Math.floor(diff%86400000/3600000);
+      const m = Math.floor(diff%3600000/60000);
+      const s = Math.floor(diff%60000/1000);
+      
+      const dEl = box.querySelector('[data-d]');
+      const hEl = box.querySelector('[data-h]');
+      const mEl = box.querySelector('[data-m]');
+      const sEl = box.querySelector('[data-s]');
+      
+      if(dEl) dEl.textContent = String(d).padStart(2,'0');
+      if(hEl) hEl.textContent = String(h).padStart(2,'0');
+      if(mEl) mEl.textContent = String(m).padStart(2,'0');
+      if(sEl) sEl.textContent = String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // Hiệu ứng Scroll Reveal đơn giản
+  function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    for (var i = 0; i < reveals.length; i++) {
+      var windowHeight = window.innerHeight;
+      var elementTop = reveals[i].getBoundingClientRect().top;
+      var elementVisible = 100;
+      if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add("active");
+      }
+    }
+  }
+  window.addEventListener("scroll", reveal);
+  reveal(); // Chạy lần đầu khi load trang
+</script>
+</body>
+</html>

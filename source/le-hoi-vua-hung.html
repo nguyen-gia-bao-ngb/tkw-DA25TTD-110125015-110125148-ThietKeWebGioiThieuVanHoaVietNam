@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giỗ Tổ Hùng Vương — Lễ Hội Việt</title>
+<meta name="description" content="Nguồn gốc, truyền thuyết và hành trình hành hương về Đền Hùng trong ngày Giỗ Tổ Hùng Vương 10/3 âm lịch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  body[data-theme="hung"]{ background: var(--hung-stone, #EDE6D6); color: var(--hung-ink, #1A120B); margin: 0; padding: 0;}
+  
+  /* ---------- SỬA LỖI NAVBAR NGANG & DẢI TRẮNG ---------- */
+  .site-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px clamp(20px, 5vw, 64px);
+    transition: background 0.4s ease, padding 0.4s ease;
+  }
+  .site-nav.scrolled{ 
+    background: rgba(237,230,214,.95); 
+    backdrop-filter: blur(8px); 
+    box-shadow:0 4px 20px rgba(58,32,12,.1); 
+    padding: 15px clamp(20px, 5vw, 64px);
+  }
+  .site-nav .brand{ color: var(--hung-red, #B22222) !important; font-size: 1.5rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 8px;}
+  .site-nav .brand .dot{ background: var(--hung-bronze, #8B5A2B); width: 8px; height: 8px; border-radius: 50%; display: inline-block;}
+  
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Sắp xếp ngang */
+    gap: 30px; 
+    align-items: center;
+  }
+  .site-nav a.nav-link{ 
+    color: var(--hung-ink, #1A120B) !important; 
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.05rem;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .site-nav a.nav-link:hover, .site-nav a.nav-link.active{ color: var(--hung-red, #B22222) !important; }
+  
+  .site-nav a.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--hung-bronze, #8B5A2B);
+    transition: width 0.3s ease;
+  }
+  .site-nav a.nav-link:hover::after, .site-nav a.nav-link.active::after {
+    width: 100%;
+  }
+  .nav-toggle { display: none; }
+
+  /* ---------- HERO: NÚI NGHĨA LĨNH & MẶT TRỜI BAN MAI ---------- */
+  .hung-hero{
+    position:relative; min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden;
+    padding:160px clamp(20px,6vw,90px) 0;
+    background: linear-gradient(180deg, #D4AF37 0%, #C9A876 25%, #9C7548 50%, var(--hung-bronze-dark, #4A2E15) 100%);
+    color: var(--hung-stone);
+  }
+
+  /* Hiệu ứng Mặt trời rực rỡ phía sau núi */
+  .hung-hero .sun {
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #FFFDE7 0%, #FFD54F 40%, rgba(255, 213, 79, 0) 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 150px 50px rgba(255, 235, 59, 0.4);
+    animation: sun-pulse 6s infinite alternate ease-in-out;
+    z-index: 1;
+  }
+  @keyframes sun-pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.1); opacity: 1; }
+  }
+
+  .hung-hero .mountain{ position:absolute; left:0; right:0; bottom:0; width:100%; height:62%; z-index: 2; }
+  .hung-hero .mountain svg{ width:100%; height:100%; display:block; }
+  .hung-hero .mist{
+    position:absolute; left:0; right:0; bottom:0; height:40%;
+    background: linear-gradient(180deg, transparent, rgba(58,32,12,.6));
+    z-index: 2;
+  }
+  
+  /* HIỆU ỨNG ĐÀN CHIM LẠC BAY (ĐÃ FIX LỖI) */
+  .bird-ani {
+    position: absolute; 
+    width: 60px; 
+    height: 30px; 
+    z-index: 4; /* Nằm trên cùng */
+    /* Mã SVG chuẩn hóa hiển thị trên mọi trình duyệt */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234A2E15' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 12q5-6 10 0 5-6 10 0'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: flyRight linear infinite;
+    pointer-events: none;
+  }
+  @keyframes flyRight {
+    0% { transform: translate(-10vw, 0) scale(var(--s)); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translate(110vw, -150px) scale(var(--s)); opacity: 0; }
+  }
+
+  .hung-hero .content{ position:relative; z-index:5; padding-bottom:90px; }
+  .hung-hero .eyebrow{ color:#FFFDE7; font-weight: bold; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.3);}
+  .hung-hero h1{ font-size:clamp(2.8rem,7vw,5.6rem); font-weight:800; color:#FFF; line-height:1; margin:12px 0 22px; text-shadow: 0 5px 20px rgba(0,0,0,0.4);}
+  .hung-hero .quote{
+    font-family:var(--font-display); font-style:italic; font-size:clamp(1.1rem,1.8vw,1.45rem);
+    max-width:560px; line-height:1.6; border-left:4px solid #FFD54F; padding-left:18px; opacity:1; color: #FFF; text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  }
+  .hung-hero .date-badge{
+    display:inline-flex; gap:10px; align-items:center; margin-top:28px; padding:10px 20px; border-radius:999px;
+    background:rgba(20, 10, 0, 0.4); border:1px solid rgba(255, 213, 79, 0.3); font-size:.9rem; letter-spacing:.04em; color: #FFF;
+    backdrop-filter: blur(8px); font-weight: 500;
+  }
+
+  /* bronze drum tick border */
+  .drum-divider{
+    height:16px;
+    background: repeating-linear-gradient(90deg, #C9A876 0 4px, transparent 4px 24px);
+    opacity: 0.8;
+  }
+
+  /* ---------- SECTION COMMON ---------- */
+  .hung-section{ padding:100px clamp(20px,6vw,90px); }
+  .hung-section .eyebrow{ color: var(--hung-red, #B22222); font-weight: bold; letter-spacing: 1px; text-transform: uppercase;}
+  .hung-section h2{ font-size:clamp(2rem,4vw,2.8rem); margin:12px 0 22px; color:var(--hung-ink); font-weight: 800;}
+  .hung-section p.lede{ max-width:680px; opacity:.85; line-height:1.8; font-size:1.05rem; }
+
+  .legend-grid{ display:flex; gap:54px; flex-wrap:wrap; }
+  .legend-grid .ltext{ flex:1 1 440px; line-height:1.85; opacity:.9; font-size:1.05rem; color: #333;}
+  .legend-grid .lbox{
+    flex:0 0 260px; background:var(--hung-forest, #2D4A22); color:var(--hung-stone); border-radius:18px; padding:35px 30px;
+    box-shadow: 0 15px 30px rgba(45, 74, 34, 0.2); transition: transform 0.3s ease;
+  }
+  .legend-grid .lbox:hover { transform: translateY(-8px); }
+  .legend-grid .lbox h4{ font-family:var(--font-display); font-size:1.4rem; margin-bottom:12px; color:#F0D9A8; font-weight: bold; }
+  .legend-grid .lbox p{ font-size:.95rem; opacity:.9; line-height:1.6; margin:0; }
+
+  /* ---------- HÀNH TRÌNH LÊN NÚI THÊM ICON ĐẸP MẮT ---------- */
+  .journey{ position:relative; max-width:800px; margin:0 auto; }
+  .journey::before{
+    content:""; position:absolute; left:33px; top:20px; bottom:20px; width:3px;
+    background: repeating-linear-gradient(180deg, var(--hung-bronze, #8B5A2B) 0 10px, transparent 10px 20px);
+  }
+  .j-step{ position:relative; padding-left:100px; padding-bottom:60px; transition: transform 0.3s ease; }
+  .j-step:hover { transform: translateX(8px); }
+  .j-step:last-child{ padding-bottom:0; }
+  
+  .j-step .j-num{
+    position:absolute; left:0; top:0; width:70px; height:70px; border-radius:50%;
+    background:var(--hung-red, #B22222); color:var(--hung-stone); display:flex; align-items:center; justify-content:center;
+    border:4px solid var(--hung-stone, #EDE6D6); box-shadow:0 5px 15px rgba(178, 34, 34, 0.3); z-index: 2;
+  }
+  .j-step .j-num svg { width: 30px; height: 30px; stroke: #F0D9A8; } /* Màu vàng đồng cho Icon */
+
+  .j-step h4{ font-size:1.5rem; margin-bottom:8px; color:var(--hung-red, #B22222); font-weight: 800;}
+  .j-step .j-meta{ font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; color:var(--hung-bronze, #8B5A2B); margin-bottom:12px; font-weight:700; display:block;}
+  .j-step p{ opacity:.85; line-height:1.75; margin:0; max-width:600px; font-size: 1.05rem;}
+
+  /* ---------- LỄ & HỘI CÓ HIỆU ỨNG ---------- */
+  .lh-card{
+    background:#fff; border-radius:20px; padding:40px 35px; height:100%;
+    border:2px solid transparent; transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+  }
+  .lh-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(178,34,34,0.15); border-color: var(--hung-red, #B22222); }
+  .lh-card .tag{ font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--hung-bronze, #8B5A2B); background: #F5F0E6; padding: 5px 12px; border-radius: 20px; display:inline-block; font-weight:800; margin-bottom:15px; }
+  .lh-card h4{ font-size:1.4rem; margin-bottom:15px; color:var(--hung-red, #B22222); font-weight: bold;}
+  .lh-card ul{ padding-left:20px; margin:0; opacity:.85; line-height:1.8; font-size:1.05rem; }
+
+  /* ---------- UỐNG NƯỚC NHỚ NGUỒN ---------- */
+  .thread-quote{
+    background: linear-gradient(135deg, var(--hung-red, #B22222), #660000); color:var(--hung-stone);
+    border-radius:24px; padding:70px clamp(20px,5vw,70px); text-align:center;
+    box-shadow: 0 20px 40px rgba(178,34,34,0.25); position: relative; overflow: hidden;
+  }
+  /* Họa tiết mờ đằng sau Text */
+  .thread-quote::before {
+    content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background-image: radial-gradient(circle, rgba(240, 217, 168, 0.05) 10%, transparent 10%);
+    background-size: 20px 20px; z-index: 1; pointer-events: none;
+  }
+  .thread-quote p{ font-family:var(--font-display); font-style:italic; font-size:clamp(1.6rem,3.5vw,2.5rem); line-height:1.5; max-width:750px; margin:0 auto 15px; position: relative; z-index: 2; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.3);}
+  .thread-quote span{ font-size:1rem; color: #F0D9A8; font-weight: 600; letter-spacing:.1em; text-transform:uppercase; position: relative; z-index: 2;}
+
+  /* ---------- MAP ---------- */
+  .map-wrap{ border-radius:20px; overflow:hidden; border:2px solid rgba(139,90,43,.2); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+  .map-wrap iframe{ width:100%; height:450px; border:0; display:block; }
+
+  /* ---------- THIẾT KẾ FOOTER MỚI ---------- */
+  .site-footer {
+    background-color: var(--hung-ink, #1A120B);
+    background-image: 
+      repeating-linear-gradient(45deg, rgba(240, 217, 168, 0.03) 0px, rgba(240, 217, 168, 0.03) 2px, transparent 2px, transparent 10px),
+      repeating-linear-gradient(-45deg, rgba(240, 217, 168, 0.03) 0px, rgba(240, 217, 168, 0.03) 2px, transparent 2px, transparent 10px);
+    padding: 70px clamp(20px, 6vw, 90px) 30px;
+    color: #F0D9A8; 
+    border-top: 2px solid rgba(240, 217, 168, 0.15);
+  }
+  .site-footer .footer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+  .site-footer .footer-col {
+    flex: 1 1 300px;
+  }
+  .site-footer .footer-brand {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #F0D9A8;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .site-footer .footer-brand .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--hung-red, #B22222);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .site-footer h5 { 
+    font-family: var(--font-display, 'Playfair Display', serif); 
+    font-size: 1.3rem; 
+    font-weight: bold;
+    color: #F0D9A8; 
+    margin-bottom: 20px; 
+  }
+  .site-footer p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.85;
+    color: var(--hung-stone, #EDE6D6);
+  }
+  .site-footer ul { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+  }
+  .site-footer ul li {
+    margin-bottom: 12px;
+  }
+  .site-footer ul li a { 
+    color: var(--hung-stone, #EDE6D6); 
+    opacity: 0.8; 
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease; 
+  }
+  .site-footer ul li a:hover { 
+    opacity: 1; 
+    color: #F0D9A8;
+    text-shadow: 0 0 10px rgba(240, 217, 168, 0.4);
+    padding-left: 5px; 
+  }
+  .site-footer .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(240, 217, 168, 0.15);
+    font-size: 0.9rem;
+    opacity: 0.7;
+    color: var(--hung-stone, #EDE6D6);
+  }
+</style>
+</head>
+<body data-theme="hung">
+
+<nav class="site-nav">
+  <a class="brand" href="index.html"><span class="dot"></span>Lễ Hội Việt</a>
+  <ul>
+    <li><a class="nav-link" href="index.html">Trang chủ</a></li>
+    <li><a class="nav-link" href="tet-nguyen-dan.html">Tết Nguyên Đán</a></li>
+    <li><a class="nav-link active" href="le-hoi-vua-hung.html">Giỗ Tổ Hùng Vương</a></li>
+    <li><a class="nav-link" href="tet-trung-thu.html">Tết Trung Thu</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+
+  <section class="hung-hero" id="hung-hero">
+    <div class="sun"></div>
+    <div class="mountain">
+      <svg viewBox="0 0 1200 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="0,500 0,300 220,160 420,320 600,120 820,300 1000,180 1200,320 1200,500" fill="#5E3B1B" opacity="0.6"/>
+        <polygon points="0,500 0,360 260,230 520,380 760,210 980,360 1200,260 1200,500" fill="#4A2E15" opacity="0.8"/>
+        <polygon points="0,500 0,420 300,320 560,430 820,300 1080,420 1200,380 1200,500" fill="#2A2018"/>
+      </svg>
+    </div>
+    <div class="mist"></div>
+    <div class="content">
+      <p class="eyebrow reveal">10 tháng 3 âm lịch</p>
+      <h1 class="reveal reveal-delay-1">Giỗ Tổ<br>Hùng Vương</h1>
+      <p class="quote reveal reveal-delay-2">"Dù ai đi ngược về xuôi<br>Nhớ ngày giỗ Tổ mùng mười tháng ba."</p>
+      <div class="date-badge reveal reveal-delay-2">📍 Đền Hùng, Việt Trì, Phú Thọ — Năm 2027 nhằm 16/4 Dương lịch</div>
+    </div>
+  </section>
+  <div class="drum-divider"></div>
+
+  <section class="hung-section">
+    <p class="eyebrow">Nguồn gốc & Truyền thuyết</p>
+    <h2>Con Rồng, cháu Tiên</h2>
+    <div class="legend-grid">
+      <div class="ltext reveal">
+        <p>Theo truyền thuyết, Lạc Long Quân — vị thần nòi rồng — kết duyên cùng Âu Cơ, người mang dòng máu tiên. Âu Cơ sinh ra một bọc trăm trứng, nở thành trăm người con. Năm mươi con theo mẹ lên núi, năm mươi con theo cha xuống biển, cùng nhau khai mở giang sơn. Người con cả lên ngôi, lấy hiệu là Hùng Vương, lập ra nước Văn Lang — nhà nước đầu tiên của người Việt.</p>
+        <p>Trải qua 18 đời Vua Hùng trị vì, vùng đất Phong Châu (nay là Phú Thọ) trở thành kinh đô đầu tiên của dân tộc. Đền Hùng trên núi Nghĩa Lĩnh được dựng lên để đời sau tưởng nhớ công lao dựng nước của các bậc tiền nhân — cội nguồn của hai tiếng "đồng bào".</p>
+      </div>
+      <div class="lbox reveal reveal-delay-1">
+        <h4>Văn Lang</h4>
+        <p>Nhà nước đầu tiên trong lịch sử Việt Nam, do các Vua Hùng dựng nên tại vùng đất Phong Châu — nay là tỉnh Phú Thọ.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hung-section" style="background:#fff;">
+    <p class="eyebrow">Hành trình hành hương</p>
+    <h2 class="reveal">Ba ngôi đền, một con đường lên núi thiêng</h2>
+    <p class="lede reveal" style="margin-bottom:56px;">Từ chân núi Nghĩa Lĩnh, đoàn rước kiệu đi qua từng ngôi đền theo thứ tự, mỗi chặng mang một lớp ý nghĩa riêng trước khi đến nơi cao nhất.</p>
+
+    <div class="journey">
+      <div class="j-step reveal">
+        <span class="j-num"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M12 3L3 10v11M21 10v11M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg></span>
+        <span class="j-meta">Chân núi</span>
+        <h4>Đền Hạ</h4>
+        <p>Nơi bắt đầu hành trình. Truyền thuyết kể rằng đây là nơi Âu Cơ sinh ra bọc trăm trứng — khởi nguồn của câu chuyện "đồng bào".</p>
+      </div>
+      <div class="j-step reveal reveal-delay-1">
+        <span class="j-num"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><path d="M9 9h6v6H9z"/></svg></span>
+        <span class="j-meta">Lưng chừng núi · khoảng 160 bậc đá từ Đền Hạ</span>
+        <h4>Đền Trung</h4>
+        <p>Tên chữ "Hùng Vương Tổ Miếu". Tương truyền là nơi các Vua Hùng cùng lạc hầu, lạc tướng họp bàn việc nước — trong đó có cuộc thi tìm người tài mà bánh chưng, bánh giầy của Lang Liêu đã chiến thắng.</p>
+      </div>
+      <div class="j-step reveal reveal-delay-2">
+        <span class="j-num"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
+        <span class="j-meta">Đỉnh núi Nghĩa Lĩnh · khoảng 100 bậc đá từ Đền Trung</span>
+        <h4>Đền Thượng</h4>
+        <p>Điểm thiêng nhất trong toàn bộ khu di tích, nơi đoàn rước kiệu dừng lại để dâng hương trong ngày Giỗ Tổ. Bên cạnh là cột đá thề và Lăng Hùng Vương.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hung-section">
+    <p class="eyebrow">Phần Lễ & Phần Hội</p>
+    <h2 class="reveal">Trang nghiêm phần lễ, rộn ràng phần hội</h2>
+    <div class="row g-4 mt-2">
+      <div class="col-12 col-md-6">
+        <div class="lh-card reveal">
+          <span class="tag">Phần lễ</span>
+          <h4>Nghi thức dâng hương</h4>
+          <ul>
+            <li>Lễ rước kiệu từ chân núi lên Đền Thượng, đi qua từng đền theo thứ tự.</li>
+            <li>Dâng hương, dâng bánh chưng – bánh giầy tưởng nhớ công ơn Vua Hùng.</li>
+            <li>Đại diện các tỉnh thành về dự lễ chính, thể hiện sự thống nhất "con một nhà".</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="lh-card reveal reveal-delay-1">
+          <span class="tag">Phần hội</span>
+          <h4>Sinh hoạt văn hóa dân gian</h4>
+          <ul>
+            <li>Hát Xoan — di sản văn hóa phi vật thể gắn liền với vùng đất Phú Thọ.</li>
+            <li>Các trò chơi dân gian: đấu vật, kéo co, bơi chải, đánh đu.</li>
+            <li>Trưng bày sản vật, ẩm thực đặc trưng của vùng trung du đất Tổ.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hung-section">
+    <div class="thread-quote reveal">
+      <p>"Uống nước nhớ nguồn"</p>
+      <span>Đạo lý truyền thống xuyên suốt của người Việt qua mọi thế hệ</span>
+    </div>
+  </section>
+
+  <section class="hung-section" style="padding-top:0;">
+    <p class="eyebrow">Đường đến đất Tổ</p>
+    <h2 class="reveal">Khu di tích Đền Hùng, Phú Thọ</h2>
+    <p class="lede reveal" style="margin-bottom:30px;">Cách trung tâm Hà Nội khoảng 90km về phía Tây Bắc, thuộc xã Hy Cương, thành phố Việt Trì, tỉnh Phú Thọ.</p>
+    <div class="map-wrap reveal">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3715.422701768822!2d105.3155823153406!3d21.37326898581005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134931a7b0a7019%3A0xc3b8417c80cd1192!2zxJDhu4FuIEjDuW5n!5e0!3m2!1svi!2s!4v1680678912345!5m2!1svi!2s" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bản đồ Đền Hùng, Phú Thọ"></iframe>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <span class="dot"></span>Lễ Hội Việt
+      </div>
+      <p style="max-width:320px;">Trang thông tin giới thiệu các lễ hội truyền thống Việt Nam, thực hiện cho mục đích học tập.</p>
+    </div>
+    <div class="footer-col" style="max-width: 300px;">
+      <h5>Lễ hội</h5>
+      <ul>
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="tet-nguyen-dan.html">Tết Nguyên Đán</a></li>
+        <li><a href="le-hoi-vua-hung.html">Giỗ Tổ Hùng Vương</a></li>
+        <li><a href="tet-trung-thu.html">Tết Trung Thu</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="bottom">
+    <span>© 2026 Lễ Hội Việt — Thiết kết Web</span>
+    <span>Thiết kế với Bootstrap 5</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Đổi màu Navbar khi cuộn chuột
+  const nav = document.querySelector('.site-nav');
+  window.addEventListener('scroll', () => { 
+    nav.classList.toggle('scrolled', window.scrollY > 30); 
+  }, { passive: true });
+
+  // Hiệu ứng Fade-in
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => io.observe(el));
+
+  // Thêm hiệu ứng Chim Lạc bay lượn ở khu vực Hero (Đã cập nhật để xuất hiện ngay lập tức)
+  (function(){
+    const hero = document.getElementById('hung-hero');
+    if(hero){
+      for(let i=0;i<12;i++){ 
+        const bird = document.createElement('div');
+        bird.className = 'bird-ani';
+        bird.style.top = (10 + Math.random()*35) + '%';
+        bird.style.setProperty('--s', Math.random() * 0.5 + 0.5); 
+        bird.style.animationDuration = (12 + Math.random()*10) + 's'; 
+        // Dùng số âm (negative delay) để animation bắt đầu ngay lập tức
+        bird.style.animationDelay = -(Math.random()*20) + 's'; 
+        hero.appendChild(bird);
+      }
+    }
+  })();
+</script>
+</body>
+</html>

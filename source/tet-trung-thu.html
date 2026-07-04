@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tết Trung Thu — Lễ Hội Việt</title>
+<meta name="description" content="Nguồn gốc, sự tích và phong tục của Tết Trung Thu — đêm trăng đoàn viên của người Việt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* ---------- NỀN CHUNG TRANG WEB ---------- */
+  body[data-theme="tt"]{ background: #FFFDF7; color: var(--tt-ink); margin: 0; padding: 0; }
+  
+  /* ---------- SỬA LỖI NAVBAR & DẢI TRẮNG ---------- */
+  .site-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px clamp(20px, 5vw, 64px);
+    transition: background 0.4s ease, padding 0.4s ease;
+    background: transparent; /* Bắt đầu với nền trong suốt */
+  }
+  .site-nav.scrolled{ 
+    background: rgba(15, 21, 37, 0.95) !important; 
+    backdrop-filter: blur(10px); 
+    padding: 15px clamp(20px, 5vw, 64px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .site-nav .brand{ color: var(--tt-moon, #F4D58D) !important; font-size: 1.5rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 8px;}
+  .site-nav .brand .dot{ background: var(--tt-moon, #F4D58D); width: 8px; height: 8px; border-radius: 50%; display: inline-block;}
+  
+  /* CĂN CHỈNH MENU NGANG TRÊN 1 HÀNG */
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; 
+    gap: 30px; 
+    align-items: center;
+  }
+  .site-nav a.nav-link{ 
+    color: #E0E6ED !important; 
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.05rem;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  .site-nav a.nav-link:hover, .site-nav a.nav-link.active {
+    color: var(--tt-moon, #F4D58D) !important; 
+  }
+  
+  /* Gạch chân mượt mà khi hover */
+  .site-nav a.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--tt-moon, #F4D58D);
+    transition: width 0.3s ease;
+  }
+  .site-nav a.nav-link:hover::after, .site-nav a.nav-link.active::after {
+    width: 100%;
+  }
+
+  .nav-toggle { display: none; } 
+
+  /* ---------- HERO: ĐÊM TRANG CỰC KỲ RỰC RỠ ---------- */
+  .tt-hero{
+    position:relative; min-height:100vh; display:flex; flex-direction:column; justify-content:center; overflow:hidden;
+    padding:140px clamp(20px,6vw,90px) 90px;
+    background: radial-gradient(circle at 70% 28%, #2A3A66, #141c33 60%, #080b14 100%);
+    color: var(--tt-silver);
+  }
+
+  /* HIỆU ỨNG BẦU TRỜI SAO LẤP LÁNH TĨNH/ĐỘNG */
+  .stars-bg {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 250px 250px;
+    animation: twinkle 3s infinite alternate;
+    z-index: 1;
+    opacity: 0.8;
+  }
+  @keyframes twinkle {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.02); }
+  }
+  
+  /* MẶT TRĂNG TOẢ SÁNG RÕ RÀNG HƠN */
+  @keyframes moon-glow {
+    0% { box-shadow: 0 0 60px 20px rgba(244,213,141,.4); }
+    100% { box-shadow: 0 0 120px 50px rgba(244,213,141,.7); transform: scale(1.03); }
+  }
+  .tt-hero .moon{
+    position:absolute; top:10%; right:10%; width:240px; height:240px; border-radius:50%;
+    background: radial-gradient(circle at 38% 35%, #FFF7DE 0%, var(--tt-moon, #F4D58D) 55%, #D9A94B 100%);
+    animation: moon-glow 2.5s ease-in-out infinite alternate;
+    z-index: 2;
+  }
+  .tt-hero .moon::before, .tt-hero .moon::after{
+    content:""; position:absolute; border-radius:50%; background:rgba(180,140,70,.25);
+  }
+  .tt-hero .moon::before{ width:34px; height:34px; top:30%; left:24%; }
+  .tt-hero .moon::after{ width:20px; height:20px; top:60%; left:55%; }
+
+  .lantern{ position:absolute; bottom:-60px; opacity:0; animation: lantern-rise linear infinite; pointer-events:none; z-index: 2; }
+  .lantern .body{ width:26px; height:34px; border-radius:8px 8px 14px 14px; }
+  .lantern .top, .lantern .bot{ width:30px; height:5px; border-radius:3px; margin:0 auto; background:#8a5a2a; }
+  .lantern .string{ width:1px; height:10px; background:#8a5a2a; margin:0 auto; }
+  @keyframes lantern-rise{
+    0%{ transform: translate(0,0) ; opacity:0; }
+    8%{ opacity:.95; }
+    85%{ opacity:.85; }
+    100%{ transform: translate(var(--drift,30px), -118vh); opacity:0; }
+  }
+
+  .tt-hero .eyebrow{ color: #F4D58D; font-weight: bold; font-size: 1.2rem; z-index:2; position:relative; }
+  .tt-hero h1{ font-size: clamp(3rem,8vw,6.2rem); font-weight:800; color:#fff; line-height:.98; margin:14px 0 18px; position:relative; z-index:2; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+  .tt-hero h1 em{ font-style:italic; color:#F4D58D; font-weight:600; }
+  .tt-hero p.lede{ font-size:clamp(1.05rem,1.6vw,1.25rem); max-width:560px; opacity:1; color:#E0E6ED; line-height:1.7; position:relative; z-index:2; }
+
+  .countdown{ display:flex; gap:14px; margin-top:38px; position:relative; z-index:2; flex-wrap:wrap; }
+  .countdown .cbox{
+    background: rgba(255, 255, 255, 0.15); border:1px solid rgba(244, 213, 141, 0.5); border-radius:14px;
+    padding:14px 18px; min-width:78px; text-align:center;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+  }
+  .countdown .cbox strong{ display:block; font-family:var(--font-display); font-size:2.2rem; color:#F4D58D; text-shadow: 0 0 10px rgba(244,213,141,0.5); }
+  .countdown .cbox span{ font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:#fff; font-weight:bold; }
+  .countdown .cd-msg{ font-family:var(--font-display); font-size:1.4rem; color:var(--tt-moon); }
+  .countdown-label{ font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:#fff; margin-bottom:10px; position:relative; z-index:2;}
+
+  /* ---------- SECTION SỰ TÍCH: ĐỔ MÀU RỰC RỠ CHO CÁC KHỐI ---------- */
+  .tt-section{ padding:100px clamp(20px,6vw,90px); }
+  .tt-section .eyebrow{ color:#E74C3C; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; background: #FFEDD5; padding: 5px 15px; border-radius: 20px; display: inline-block; }
+  .tt-section h2{ font-size:clamp(2rem,4vw,2.8rem); margin:15px 0 22px; color: #1E2A4A; font-weight: 800; }
+  .tt-section p.lede{ max-width:680px; opacity:.9; line-height:1.8; font-size:1.1rem; color:#4a5568;}
+
+  .myth-grid{ display:flex; gap:26px; flex-wrap:wrap; }
+  .myth-card{ flex:1 1 280px; border-radius:20px; padding:35px 26px; border:none; transition: all 0.4s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+  .myth-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+  
+  .myth-card:nth-child(1) { background: linear-gradient(135deg, #FFF9E6, #FFE5B4); }
+  .myth-card:nth-child(2) { background: linear-gradient(135deg, #F0F4FF, #D6E4FF); }
+  .myth-card:nth-child(3) { background: linear-gradient(135deg, #F9F0FF, #EAD6FF); }
+
+  .myth-card h4{ font-size:1.3rem; color:#1E2A4A; margin-bottom:12px; font-weight: bold; }
+  .myth-card p{ font-size:.95rem; color: #4A5568; line-height:1.7; margin:0; }
+
+  /* ---------- SECTION PHONG TỤC ---------- */
+  .custom-card{
+    background:#fff; border:2px solid #F0F0F0; border-radius:20px; padding:30px 26px; height:100%;
+    transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+  }
+  .custom-card:hover{ transform:translateY(-8px); box-shadow:0 15px 35px rgba(217, 169, 75, 0.2); border-color: #D9A94B; }
+  .custom-card .cicon{ width:55px; height:55px; margin-bottom:20px; transition: transform 0.3s ease, stroke 0.3s ease; }
+  .custom-card:hover .cicon { stroke: #E74C3C; transform: scale(1.2) rotate(5deg); }
+  .custom-card h4{ font-size:1.2rem; margin-bottom:10px; color:#1E2A4A; font-weight:bold; }
+  .custom-card p{ font-size:.95rem; color:#606F7B; line-height:1.6; margin:0; }
+
+  /* ---------- SECTION BÁNH TRUNG THU: HIỆU ỨNG BAY LÊN BẮT MẮT ---------- */
+  .moon-cake-section{ background: linear-gradient(to bottom, #ffffff, #FFF5E1) !important; }
+  .cake-split{ display:flex; gap:50px; flex-wrap:wrap; align-items:center; }
+  .cake-art{ flex:0 0 220px; display:flex; justify-content:center; }
+  
+  @keyframes bounce-float {
+    0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 10px 10px rgba(0,0,0,0.15)); }
+    50% { transform: translateY(-20px) scale(1.05); filter: drop-shadow(0 25px 20px rgba(217, 169, 75, 0.4)); }
+  }
+  .cake-art svg { animation: bounce-float 3s ease-in-out infinite; }
+
+  .cake-text{ flex:1 1 380px; }
+  .cake-text h4{ color:#E74C3C; font-size:1.4rem; margin:18px 0 8px; font-weight:bold; }
+  .cake-text p{ color:#4A5568; line-height:1.75; font-size:1rem; }
+
+  /* ---------- ĐÈN LỒNG ---------- */
+  @keyframes swing {
+    0% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    100% { transform: rotate(-10deg); }
+  }
+  .lantern-types{ display:flex; gap:22px; flex-wrap:wrap; }
+  .lt-item{
+    flex:1 1 200px; text-align:center; padding:35px 20px; border-radius:20px;
+    background: linear-gradient(135deg, #1E2A4A, #0F1525); color:#F4D58D;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  .lt-item:hover { transform: translateY(-10px); box-shadow: 0 20px 30px rgba(30,42,74,.5); border: 2px solid #F4D58D; }
+  .lt-item .ficon{ width:60px; height:60px; margin:0 auto 18px; stroke: #F4D58D; transition: transform 0.3s ease; }
+  .lt-item:hover .ficon { animation: swing 1s ease-in-out infinite; stroke: #FFF; }
+  .lt-item h5{ font-family:var(--font-display); font-size:1.2rem; margin-bottom:8px; color:#fff; }
+  .lt-item p{ font-size:.9rem; color:#A0AEC0; margin:0; }
+
+  /* ---------- HÌNH ẢNH ĐỘNG GÓC MÀN HÌNH ---------- */
+  .floating-bunny {
+    position: fixed; bottom: 30px; left: 30px; width: 100px; z-index: 9999;
+    animation: bunny-jump 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+    pointer-events: none;
+  }
+  @keyframes bunny-jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* ---------- THIẾT KẾ FOOTER MỚI (CHUYÊN NGHIỆP & ĐẸP MẮT NHƯ TẾT) ---------- */
+  .site-footer {
+    background-color: #0F1525;
+    /* Thêm họa tiết nền chéo (kim cương mờ) để trông tinh tế giống trang Tết */
+    background-image: 
+      repeating-linear-gradient(45deg, #141C33 0px, #141C33 2px, transparent 2px, transparent 10px),
+      repeating-linear-gradient(-45deg, #141C33 0px, #141C33 2px, transparent 2px, transparent 10px);
+    padding: 70px clamp(20px, 6vw, 90px) 30px;
+    color: var(--tt-moon, #F4D58D);
+    border-top: 2px solid rgba(244, 213, 141, 0.1);
+  }
+  .site-footer .footer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+  .site-footer .footer-col {
+    flex: 1 1 300px;
+  }
+  /* Căn chỉnh Logo bên trái giống trang Tết */
+  .site-footer .footer-brand {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--tt-moon, #F4D58D);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .site-footer .footer-brand .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--tt-moon, #F4D58D);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .site-footer h5 { 
+    font-family: var(--font-display, 'Playfair Display', serif); 
+    font-size: 1.3rem; 
+    font-weight: bold;
+    color: var(--tt-moon, #F4D58D); 
+    margin-bottom: 20px; 
+  }
+  .site-footer p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+  .site-footer ul { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+  }
+  .site-footer ul li {
+    margin-bottom: 12px;
+  }
+  .site-footer ul li a { 
+    color: var(--tt-moon, #F4D58D); 
+    opacity: 0.8; 
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease; 
+  }
+  .site-footer ul li a:hover { 
+    opacity: 1; 
+    text-shadow: 0 0 10px rgba(244, 213, 141, 0.6);
+    padding-left: 5px; /* Hiệu ứng đẩy chữ nhẹ sang phải */
+  }
+  /* Thanh chia ngang dưới cùng căn đều 2 bên giống trang Tết */
+  .site-footer .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(244, 213, 141, 0.15);
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body data-theme="tt">
+
+<img src="https://cdn-icons-png.flaticon.com/512/8100/8100224.png" class="floating-bunny" alt="Thỏ ngọc Trung Thu">
+
+<nav class="site-nav">
+  <a class="brand" href="index.html"><span class="dot"></span>Lễ Hội Việt</a>
+  <ul>
+    <li><a class="nav-link" href="index.html">Trang chủ</a></li>
+    <li><a class="nav-link" href="tet-nguyen-dan.html">Tết Nguyên Đán</a></li>
+    <li><a class="nav-link" href="le-hoi-vua-hung.html">Giỗ Tổ Hùng Vương</a></li>
+    <li><a class="nav-link active" href="tet-trung-thu.html">Tết Trung Thu</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+
+  <section class="tt-hero" id="tt-hero">
+    <div class="stars-bg"></div>
+    <div class="moon"></div>
+    
+    <p class="eyebrow reveal">15 tháng 8 âm lịch</p>
+    <h1 class="reveal reveal-delay-1">Tết<br><em>Trung Thu</em></h1>
+    <p class="lede reveal reveal-delay-2">Đêm trăng tròn và sáng nhất của mùa thu — khi đèn ông sao rực rỡ khắp ngõ phố, lân sư rộn ràng trống hội, và cả nhà cùng ngồi quanh mâm cỗ trông trăng.</p>
+
+    <p class="countdown-label reveal reveal-delay-2">Đếm ngược đến Trung Thu 2026</p>
+    <div class="countdown reveal reveal-delay-3" id="tt-countdown">
+      <div class="cbox"><strong data-d>00</strong><span>Ngày</span></div>
+      <div class="cbox"><strong data-h>00</strong><span>Giờ</span></div>
+      <div class="cbox"><strong data-m>00</strong><span>Phút</span></div>
+      <div class="cbox"><strong data-s>00</strong><span>Giây</span></div>
+    </div>
+  </section>
+
+  <section class="tt-section">
+    <p class="eyebrow">Nguồn gốc & Sự tích</p>
+    <h2 class="reveal">Những câu chuyện dưới ánh trăng rằm</h2>
+    <p class="lede reveal" style="margin-bottom:40px;">Tết Trung Thu gắn liền với tín ngưỡng thờ trăng và gắn với nhiều sự tích dân gian được truyền qua nhiều thế hệ.</p>
+    <div class="myth-grid">
+      <div class="myth-card reveal">
+        <h4>🌙 Chú Cuội cung trăng</h4>
+        <p>Chuyện kể về chú Cuội có cây đa thần. Một lần cây đa bị bật gốc bay lên trời, Cuội bám theo rễ cây và bị cuốn lên cung trăng, từ đó mãi ở lại nơi đó cùng cây đa của mình.</p>
+      </div>
+      <div class="myth-card reveal reveal-delay-1">
+        <h4>🐇 Thỏ Ngọc</h4>
+        <p>Thỏ Ngọc là người bạn của Hằng Nga trên cung trăng, thường được khắc họa bên cối giã thuốc trường sinh — hình ảnh quen thuộc mỗi khi nhìn lên trăng rằm.</p>
+      </div>
+      <div class="myth-card reveal reveal-delay-2">
+        <h4>✨ Hằng Nga & Hậu Nghệ</h4>
+        <p>Truyền thuyết về nàng Hằng Nga sau khi uống thuốc tiên đã bay lên cung trăng, để lại người chồng Hậu Nghệ ở lại trần gian ngày đêm ngắm trăng nhớ vợ.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tt-section" style="background:#fff;">
+    <p class="eyebrow">Phong tục Trung Thu</p>
+    <h2 class="reveal">Đêm hội của thiếu nhi và cả gia đình</h2>
+    <div class="row g-4 mt-3">
+
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="custom-card reveal">
+          <svg class="cicon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-indigo, #1E2A4A)" stroke-width="1.6"><path d="M24 8l5 11 12 1.5-9 8.5 2.5 12L24 35l-10.5 6 2.5-12-9-8.5L19 19z" stroke-linejoin="round"/></svg>
+          <h4>Rước đèn ông sao</h4>
+          <p>Trẻ em cầm đèn ông sao, đèn cá chép đi khắp xóm trong tiếng trống rộn ràng.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="custom-card reveal reveal-delay-1">
+          <svg class="cicon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-indigo, #1E2A4A)" stroke-width="1.6"><circle cx="24" cy="22" r="10"/><path d="M16 30c-3 3-4 6-4 9M32 30c3 3 4 6 4 9" stroke-linecap="round"/><circle cx="20" cy="20" r="1.4" fill="var(--tt-indigo, #1E2A4A)" stroke="none"/><circle cx="28" cy="20" r="1.4" fill="var(--tt-indigo, #1E2A4A)" stroke="none"/></svg>
+          <h4>Múa lân sư rồng</h4>
+          <p>Tiếng trống, sắc đỏ vàng của lân sư rộn ràng khắp phố phường đêm hội.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="custom-card reveal reveal-delay-2">
+          <svg class="cicon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-indigo, #1E2A4A)" stroke-width="1.6"><path d="M10 20h28v14a4 4 0 01-4 4H14a4 4 0 01-4-4z"/><path d="M10 20l14-10 14 10" stroke-linejoin="round"/></svg>
+          <h4>Phá cỗ trông trăng</h4>
+          <p>Mâm cỗ với bánh trung thu, bưởi, hồng, na được dọn ra dưới ánh trăng để cả nhà cùng thưởng thức.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="custom-card reveal">
+          <svg class="cicon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-indigo, #1E2A4A)" stroke-width="1.6"><circle cx="24" cy="24" r="15"/><path d="M24 9a15 15 0 000 30" /></svg>
+          <h4>Ngắm trăng tròn</h4>
+          <p>Đêm rằm tháng Tám, trăng được tin là tròn và sáng nhất trong năm — thời điểm để cả nhà cùng ngồi lại.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="tt-section moon-cake-section">
+    <p class="eyebrow">Bánh Trung Thu</p>
+    <h2 class="reveal">Hương vị không thể thiếu của mùa trăng</h2>
+    <div class="cake-split mt-4">
+      <div class="cake-art reveal">
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="92" fill="#D9A45C"/>
+          <circle cx="100" cy="100" r="92" fill="none" stroke="#8a5a2a" stroke-width="3"/>
+          <circle cx="100" cy="100" r="60" fill="#C9863A" stroke="#8a5a2a" stroke-width="2"/>
+          <circle cx="100" cy="100" r="18" fill="#7A4A22"/>
+          <g stroke="#8a5a2a" stroke-width="1.4" fill="none">
+            <path d="M100 8a92 92 0 010 184"/>
+            <path d="M8 100a92 92 0 01184 0"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cake-text reveal reveal-delay-1">
+        <h4>Bánh nướng</h4>
+        <p>Vỏ vàng nâu, được nướng giòn thơm, nhân thập cẩm gồm mứt, hạt dưa, lạp xưởng hoặc nhân đậu xanh, hạt sen — vị béo, ngọt vừa, ăn cùng trà nóng.</p>
+        <h4>Bánh dẻo</h4>
+        <p>Vỏ trắng mềm làm từ bột nếp rang, nhân đậu xanh hoặc hạt sen dịu ngọt, thường được tạo hình tròn tượng trưng cho vầng trăng tròn đầy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tt-section">
+    <p class="eyebrow">Đèn lồng truyền thống</p>
+    <h2 class="reveal">Ánh sáng lung linh khắp ngõ phố</h2>
+    <div class="lantern-types mt-4">
+      <div class="lt-item reveal">
+        <svg class="ficon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-moon, #F4D58D)" stroke-width="1.6"><path d="M24 6l5 11 12 1.5-9 8.5 2.5 12L24 33l-10.5 6 2.5-12-9-8.5L19 17z" stroke-linejoin="round"/></svg>
+        <h5>Đèn ông sao</h5>
+        <p>Biểu tượng quen thuộc nhất của Trung Thu Việt Nam, khung tre dán giấy bóng kính nhiều màu.</p>
+      </div>
+      <div class="lt-item reveal reveal-delay-1">
+        <svg class="ficon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-moon, #F4D58D)" stroke-width="1.6"><rect x="14" y="10" width="20" height="26" rx="10"/><path d="M14 18h20M14 28h20" /></svg>
+        <h5>Đèn kéo quân</h5>
+        <p>Đèn xoay nhờ luồng khí nóng, hắt bóng những hình nhân cổ tích chuyển động quanh thân đèn.</p>
+      </div>
+      <div class="lt-item reveal reveal-delay-2">
+        <svg class="ficon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-moon, #F4D58D)" stroke-width="1.6"><path d="M8 24c4-8 10-12 16-12s12 4 16 12c-4 8-10 12-16 12s-12-4-16-12z"/><circle cx="32" cy="22" r="1.6" fill="var(--tt-moon, #F4D58D)" stroke="none"/><path d="M8 24l-5-4M8 24l-5 4" stroke-linecap="round"/></svg>
+        <h5>Đèn cá chép</h5>
+        <p>Gắn với sự tích "cá chép hóa rồng", tượng trưng cho sự kiên trì và may mắn vươn lên.</p>
+      </div>
+      <div class="lt-item reveal">
+        <svg class="ficon" viewBox="0 0 48 48" fill="none" stroke="var(--tt-moon, #F4D58D)" stroke-width="1.6"><ellipse cx="24" cy="24" rx="11" ry="16"/><path d="M24 8v32M14 16h20M14 32h20" /></svg>
+        <h5>Đèn lồng giấy</h5>
+        <p>Hình tròn hoặc trụ, thường treo trước cửa nhà, phố cổ vào những đêm Trung Thu rộn ràng.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <span class="dot"></span>Lễ Hội Việt
+      </div>
+      <p style="max-width:320px;">Trang thông tin giới thiệu các lễ hội truyền thống Việt Nam, thực hiện cho mục đích học tập.</p>
+    </div>
+    <div class="footer-col" style="max-width: 300px;">
+      <h5>Lễ hội</h5>
+      <ul>
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="tet-nguyen-dan.html">Tết Nguyên Đán</a></li>
+        <li><a href="le-hoi-vua-hung.html">Giỗ Tổ Hùng Vương</a></li>
+        <li><a href="tet-trung-thu.html">Tết Trung Thu</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="bottom">
+    <span>© 2026 Lễ Hội Việt — Thiết kế Web</span>
+    <span>Thiết kế với Bootstrap 5</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Đổi màu Navbar khi cuộn chuột
+  const nav = document.querySelector('.site-nav');
+  window.addEventListener('scroll', () => { 
+    nav.classList.toggle('scrolled', window.scrollY > 30); 
+  }, { passive: true });
+
+  // Đèn lồng bay lên trong hero
+  (function(){
+    const hero = document.getElementById('tt-hero');
+    for(let i=0;i<14;i++){
+      const wrap = document.createElement('div');
+      wrap.className = 'lantern';
+      wrap.style.left = (5 + Math.random()*90) + '%';
+      wrap.style.setProperty('--drift', (Math.random()*80-40) + 'px');
+      wrap.style.animationDuration = (10 + Math.random()*8) + 's';
+      wrap.style.animationDelay = (Math.random()*10) + 's';
+      const scale = 0.7 + Math.random()*0.8;
+      wrap.style.transform = `scale(${scale})`;
+      wrap.innerHTML = '<div class="string"></div><div class="top"></div><div class="body" style="background:linear-gradient(180deg,#E8895A,#C94C4C); box-shadow:0 0 14px rgba(233,150,90,.7);"></div><div class="bot"></div>';
+      hero.appendChild(wrap);
+    }
+  })();
+
+  // Đếm ngược đến Trung Thu 25/09/2026
+  (function(){
+    const target = new Date('2026-09-25T00:00:00+07:00').getTime();
+    const box = document.getElementById('tt-countdown');
+    function tick(){
+      const diff = target - Date.now();
+      if(diff <= 0){
+        box.innerHTML = '<span class="cd-msg">Trung Thu vui vẻ! 🏮</span>';
+        return;
+      }
+      const d = Math.floor(diff/86400000);
+      const h = Math.floor(diff%86400000/3600000);
+      const m = Math.floor(diff%3600000/60000);
+      const s = Math.floor(diff%60000/1000);
+      box.querySelector('[data-d]').textContent = String(d).padStart(2,'0');
+      box.querySelector('[data-h]').textContent = String(h).padStart(2,'0');
+      box.querySelector('[data-m]').textContent = String(m).padStart(2,'0');
+      box.querySelector('[data-s]').textContent = String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+</body>
+</html>
